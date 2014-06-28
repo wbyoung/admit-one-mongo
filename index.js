@@ -12,16 +12,11 @@ module.exports = function(options) {
   var db = monk(opts.mongo.db);
   var users = db.get(opts.mongo.collection);
 
-  var create = function(username, passwordDigest) {
-    var obj = {};
-    obj[opts.username] = username;
-    obj[opts.passwordDigest] = passwordDigest;
-    return users.insert(obj);
+  var create = function(attributes) {
+    return users.insert(attributes);
   };
 
-  var find = function(username) {
-    var query = {};
-    query[opts.username] = username;
+  var find = function(query) {
     return users.findOne(query);
   };
 
@@ -29,14 +24,14 @@ module.exports = function(options) {
     return users.findOne({ sessionDigests: token });
   };
 
-  var addToken = function(user, digest) {
+  var addToken = function(user, token) {
     return users.update({ _id: user._id },
-      { $push: { sessionDigests: digest }});
+      { $push: { sessionDigests: token }});
   };
 
-  var removeToken = function(user, digest) {
+  var removeToken = function(user, token) {
     return users.update({ _id: user._id },
-      { $pull: { sessionDigests: digest }});
+      { $pull: { sessionDigests: token }});
   };
 
   opts._users = {
@@ -48,7 +43,7 @@ module.exports = function(options) {
   };
 
   opts._attrs = {
-    passwordDigest: function(user) { return user[opts.passwordDigest]; }
+    all: function(user) { return user; }
   };
 
   return _.extend(admit(opts), { _options: opts });
