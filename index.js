@@ -2,15 +2,13 @@
 
 var _ = require('lodash');
 var monk = require('monk');
-var admit = require('admit-one');
-var bluebird = require('bluebird'), Promise = bluebird;
 
 module.exports = function(options) {
-  var opts = admit.helpers.defaults({}, options, {
-    mongo: { collection: 'users' }
+  var opts = _.defaults({}, options.mongo, {
+    collection: 'users'
   });
-  var db = monk(opts.mongo.db);
-  var users = db.get(opts.mongo.collection);
+  var db = monk(opts.db);
+  var users = db.get(opts.collection);
 
   var create = function(attributes) {
     return users.insert(attributes);
@@ -34,7 +32,9 @@ module.exports = function(options) {
       { $pull: { sessionDigests: token }});
   };
 
-  opts._users = {
+  var adapter = {};
+
+  adapter.users = {
     create: create,
     find: find,
     findByToken: findByToken,
@@ -42,11 +42,9 @@ module.exports = function(options) {
     removeToken: removeToken
   };
 
-  opts._attrs = {
+  adapter.attrs = {
     all: function(user) { return user; }
   };
 
-  return _.extend(admit(opts), { _options: opts });
+  return adapter;
 };
-
-module.exports.__admit = admit;

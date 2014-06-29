@@ -4,10 +4,16 @@
 
 [Admit One][admit-one] adapter for MongoDB.
 
+## Install
+
+```
+npm install admit-one admit-one-mongo
+```
+
 ## Usage
 
 ```javascript
-var admit = require('admit-one-mongo')({
+var admit = require('admit-one')('mongo', {
   mongo: {
     db: 'mongodb://localhost/dbname'
   }
