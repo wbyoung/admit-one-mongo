@@ -1,7 +1,7 @@
 {
   "name": "admit-one-mongo",
   "version": "0.1.0",
-  "description": "Admit One with Mongo",
+  "description": "Admit One adapter for Mongo",
   "homepage": "https://github.com/wbyoung/admit-one-mongo",
   "bugs": {
     "url": "https://github.com/wbyoung/admit-one-mongo/issues"
