@@ -7,7 +7,7 @@
 ## Install
 
 ```
-npm install admit-one admit-one-mongo
+npm install --save admit-one admit-one-mongo
 ```
 
 ## Usage
