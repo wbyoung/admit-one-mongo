@@ -46,5 +46,7 @@ module.exports = function(options) {
     all: function(user) { return user; }
   };
 
+  adapter._db = db;
+
   return adapter;
 };
